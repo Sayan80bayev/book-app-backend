@@ -1,16 +1,18 @@
 import { Schema, model, Document } from "mongoose";
 
-export interface AuthorDocument extends Document {
-  name: string;
+export interface UserDocument extends Document {
+  username: string;
+  password: string;
   bio: string;
   birthDate: Date;
   nationality: string;
   isDeleted: boolean;
 }
 
-const AuthorSchema = new Schema<AuthorDocument>(
+const UserSchema = new Schema<UserDocument>(
   {
-    name: { type: String, required: true, trim: true, minlength: 2 },
+    username: { type: String, required: true, trim: true, minlength: 2 },
+    password: {type: String, required: true },
     bio: { type: String, required: true, minlength: 10 },
     birthDate: { type: Date, required: true },
     nationality: { type: String, required: true },
@@ -19,4 +21,4 @@ const AuthorSchema = new Schema<AuthorDocument>(
   { timestamps: true }
 );
 
-export const AuthorModel = model<AuthorDocument>("Author", AuthorSchema);
+export const UserModel = model<UserDocument>("User", UserSchema);

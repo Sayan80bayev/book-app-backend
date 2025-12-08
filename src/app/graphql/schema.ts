@@ -1,37 +1,50 @@
 import { gql } from "apollo-server";
 
 export const typeDefs = gql`
-  type Author {
+  type User {
     id: ID!
-    name: String!
+    username: String!
     bio: String!
     birthDate: String!
     nationality: String!
     isDeleted: Boolean!
   }
 
-  input CreateAuthorInput {
-    name: String!
+  type AuthPayload {
+    user: User!
+    token: String!
+  }
+
+  input RegisterUserInput {
+    username: String!
+    password: String!
     bio: String!
     birthDate: String!
     nationality: String!
   }
 
-  input UpdateAuthorInput {
-    name: String
+  input LoginUserInput {
+    username: String!
+    password: String!
+  }
+
+  input UpdateUserInput {
+    username: String
+    password: String
     bio: String
     birthDate: String
     nationality: String
   }
 
   type Query {
-    author(id: ID!): Author
-    authors: [Author!]!
+    user(id: ID!): User
+    users: [User!]!
   }
 
   type Mutation {
-    createAuthor(input: CreateAuthorInput!): Author!
-    updateAuthor(id: ID!, input: UpdateAuthorInput!): Author
-    deleteAuthor(id: ID!): Boolean!
+    registerUser(input: RegisterUserInput!): AuthPayload!
+    loginUser(input: LoginUserInput!): AuthPayload!
+    updateUser(id: ID!, input: UpdateUserInput!): User
+    deleteUser(id: ID!): Boolean!
   }
 `;
