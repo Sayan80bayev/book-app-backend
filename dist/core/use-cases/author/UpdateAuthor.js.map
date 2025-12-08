@@ -1,1 +1,0 @@
-{"version":3,"file":"UpdateAuthor.js","sourceRoot":"","sources":["../../../../src/core/use-cases/author/UpdateAuthor.ts"],"names":[],"mappings":"AAGA,MAAM,OAAO,YAAY;IACH;IAApB,YAAoB,UAAuB;QAAvB,eAAU,GAAV,UAAU,CAAa;IAAG,CAAC;IAE/C,KAAK,CAAC,OAAO,CAAC,EAAU,EAAE,MAAuB;QAC/C,OAAO,IAAI,CAAC,UAAU,CAAC,MAAM,CAAC,EAAE,EAAE,MAAM,CAAC,CAAC;IAC5C,CAAC;CACF"}

@@ -1,1 +1,0 @@
-{"version":3,"file":"CreateAuthor.js","sourceRoot":"","sources":["../../../../src/core/use-cases/author/CreateAuthor.ts"],"names":[],"mappings":"AAGA,MAAM,OAAO,YAAY;IACH;IAApB,YAAoB,UAAuB;QAAvB,eAAU,GAAV,UAAU,CAAa;IAAG,CAAC;IAE/C,KAAK,CAAC,OAAO,CAAC,MAAc;QAC1B,OAAO,IAAI,CAAC,UAAU,CAAC,MAAM,CAAC,MAAM,CAAC,CAAC;IACxC,CAAC;CACF"}
