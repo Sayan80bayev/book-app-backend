@@ -3,6 +3,7 @@ import { GraphQLError } from "graphql";
 import type { CreateReview } from "@/core/use-cases/review/CreateReview.js";
 import type { GetReviews } from "@/core/use-cases/review/GetReviews.js";
 import type { DeleteReview } from "@/core/use-cases/review/DeleteReview.js";
+import type { GetBook } from "@/core/use-cases/book/GetBook.js";
 
 export const reviewResolvers = {
   Query: {
@@ -24,6 +25,7 @@ export const reviewResolvers = {
           extensions: { code: "UNAUTHENTICATED" }
         });
       }
+
       return getReviews.byUser(contextUserId);
     }
   },
@@ -32,7 +34,15 @@ export const reviewResolvers = {
     createReview: async (
       _: any,
       { input }: any,
-      { createReview, contextUserId }: { createReview: CreateReview; contextUserId: string }
+      {
+        createReview,
+        getBook,
+        contextUserId
+      }: {
+        createReview: CreateReview;
+        getBook: GetBook;
+        contextUserId: string;
+      }
     ) => {
       if (!contextUserId) {
         throw new GraphQLError("Not authenticated", {
@@ -40,10 +50,18 @@ export const reviewResolvers = {
         });
       }
 
+      const book = await getBook.execute(input.bookId);
+      if (!book) {
+        throw new GraphQLError("Book not found", {
+          extensions: { code: "NOT_FOUND" }
+        });
+      }
+
       return createReview.execute({
         ...input,
         id: "",
         userId: contextUserId,
+        bookAuthorId: book.authorId,
         createdAt: new Date()
       });
     },

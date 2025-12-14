@@ -5,6 +5,9 @@ import { typeDefs } from "@/app/graphql/schema.js";
 
 import { resolvers } from "@/app/graphql/resolvers/index.js";
 
+import { WebSocketServer } from "ws";
+import { WebSocketEventBus } from "@/infra/events/WebSocketEventBus.js";
+
 import { UserRepo } from "@/infra/db/mongoose/UserRepo.js";
 import { RegisterUser } from "@/core/use-cases/user/RegisterUser.js";
 import { LoginUser } from "@/core/use-cases/user/LoginUser.js";
@@ -34,10 +37,13 @@ const MONGO_DB = process.env.MONGO_DB || "bookapp";
 const MONGO_HOST = process.env.MONGO_HOST || "localhost";
 const MONGO_PORT = process.env.MONGO_PORT || "27017";
 
-const MONGO_URI = `mongodb://${MONGO_USER}:${MONGO_PASSWORD}@${MONGO_HOST}:${MONGO_PORT}/${MONGO_DB}?authSource=admin`;
+const MONGO_URI = `mongodb+srv://Cluster59163:beks520A@cluster59163.jx7y7t7.mongodb.net/?appName=Cluster59163`;
 //mongodb+srv://Cluster59163:beks520A@cluster59163.jx7y7t7.mongodb.net/?appName=Cluster59163
 
 await mongoose.connect(MONGO_URI);
+
+const wss = new WebSocketServer({ port: 4001 });
+const eventBus = new WebSocketEventBus(wss);
 
 // USER
 const userRepo = new UserRepo();
@@ -62,7 +68,7 @@ const deleteCategoryUC = new DeleteCategory(categoryRepo);
 
 // REVIEW
 const reviewRepo = new ReviewRepo();
-const createReviewUC = new CreateReview(reviewRepo);
+const createReviewUC = new CreateReview(reviewRepo, eventBus);
 const getReviewsUC = new GetReviews(reviewRepo);
 const deleteReviewUC = new DeleteReview(reviewRepo);
 
