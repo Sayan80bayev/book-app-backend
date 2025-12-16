@@ -6,6 +6,8 @@
 
 Домен: книги (Book), категории (Category), отзывы (Review), пользователи (User).
 
+Ссылка на презентацию: https://www.canva.com/design/DAG7rdsmtEY/tRqqMbgWy4hf7s8gVsq6QA/edit?utm_content=DAG7rdsmtEY&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
+
 Роли пользователей:
 - **User:** может регистрироваться, логиниться, создавать/редактировать свои книги/отзывы в соответствии с правами.
 
