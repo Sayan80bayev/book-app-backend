@@ -30,10 +30,18 @@ function mapUserDocumentToUser(doc: UserDocument): User {
 export class UserRepo implements IUserRepo {
   async create(user: User): Promise<User> {
     const { id, ...rest } = user;
-    const doc = await UserModel.create({
-      ...rest
-    });
-    return mapUserDocumentToUser(doc);
+    try {
+      const doc = await UserModel.create({
+        ...rest
+      });
+      return mapUserDocumentToUser(doc);
+    } catch (err: any) {
+      // Mongo duplicate key error
+      if (err && (err.name === "MongoServerError" || err.name === "MongoError") && err.code === 11000) {
+        throw new Error("Username already exists");
+      }
+      throw err;
+    }
   }
 
   async findById(id: string): Promise<User | null> {

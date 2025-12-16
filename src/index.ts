@@ -7,6 +7,7 @@ import { resolvers } from "@/app/graphql/resolvers/index.js";
 
 import { WebSocketServer } from "ws";
 import { WebSocketEventBus } from "@/infra/events/WebSocketEventBus.js";
+import { MONGO_URI, JWT_SECRET, WS_PORT, PORT } from "@/config.js";
 
 import { UserRepo } from "@/infra/db/mongoose/UserRepo.js";
 import { RegisterUser } from "@/core/use-cases/user/RegisterUser.js";
@@ -31,18 +32,9 @@ import { CreateReview } from "@/core/use-cases/review/CreateReview.js";
 import { GetReviews } from "@/core/use-cases/review/GetReviews.js";
 import { DeleteReview } from "@/core/use-cases/review/DeleteReview.js";
 
-const MONGO_USER = process.env.MONGO_USER || "root";
-const MONGO_PASSWORD = process.env.MONGO_PASSWORD || "example";
-const MONGO_DB = process.env.MONGO_DB || "bookapp";
-const MONGO_HOST = process.env.MONGO_HOST || "localhost";
-const MONGO_PORT = process.env.MONGO_PORT || "27017";
-
-const MONGO_URI = `mongodb+srv://Cluster59163:beks520A@cluster59163.jx7y7t7.mongodb.net/?appName=Cluster59163`;
-//mongodb+srv://Cluster59163:beks520A@cluster59163.jx7y7t7.mongodb.net/?appName=Cluster59163
-
 await mongoose.connect(MONGO_URI);
 
-const wss = new WebSocketServer({ port: 4001 });
+const wss = new WebSocketServer({ port: WS_PORT });
 const eventBus = new WebSocketEventBus(wss);
 
 // USER
@@ -84,10 +76,7 @@ const server = new ApolloServer({
 
     if (token) {
       try {
-        const decoded = jwt.verify(
-          token,
-          process.env.JWT_SECRET || "secret123"
-        ) as any;
+        const decoded = jwt.verify(token, JWT_SECRET) as any;
         contextUserId = decoded.id;
       } catch {
         contextUserId = null;

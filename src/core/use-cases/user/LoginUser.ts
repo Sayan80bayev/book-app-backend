@@ -3,6 +3,7 @@ import type { LoginUserResult } from "@/core/use-cases/types.js";
 
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "@/config.js";
 
 export class LoginUser {
   constructor(private userRepo: IUserRepo) {}
@@ -18,11 +19,7 @@ export class LoginUser {
       throw new Error("Invalid username or password");
     }
 
-    const token = jwt.sign(
-      { id: user.id },
-      process.env.JWT_SECRET || "secret123",
-      { expiresIn: "7d" }
-    );
+    const token = jwt.sign({ id: user.id }, JWT_SECRET, { expiresIn: "7d" });
 
     return {
       user: {

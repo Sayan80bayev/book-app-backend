@@ -4,6 +4,7 @@ import type { RegisterUserResult } from "@/core/use-cases/types.js";
 
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "@/config.js";
 
 export class RegisterUser {
   constructor(private userRepo: IUserRepo) {}
@@ -20,11 +21,7 @@ export class RegisterUser {
 
     const createdUser = await this.userRepo.create(userToCreate);
 
-    const token = jwt.sign(
-      { id: createdUser.id },
-      process.env.JWT_SECRET || "secret123",
-      { expiresIn: "7d" }
-    );
+    const token = jwt.sign({ id: createdUser.id }, JWT_SECRET, { expiresIn: "7d" });
 
     return {
       user: {

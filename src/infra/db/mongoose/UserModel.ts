@@ -21,4 +21,6 @@ const UserSchema = new Schema<UserDocument>(
   { timestamps: true }
 );
 
+UserSchema.index({ username: 1 }, { unique: true, partialFilterExpression: { isDeleted: false } });
+
 export const UserModel = model<UserDocument>("User", UserSchema);
